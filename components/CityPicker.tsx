@@ -29,6 +29,7 @@ type cityOption = {
   label: string;
 } | null;
 
+// Helper function to get all countries and cities
 function options() {
   const options = Country.getAllCountries().map((country) => ({
     value: {
@@ -40,7 +41,6 @@ function options() {
   }));
   return options;
 }
-
 function cityOptions(country: option) {
   const options = City.getCitiesOfCountry(
     country?.value.isoCode as string
@@ -71,10 +71,15 @@ export default function CityPicker() {
   const handleSelectedCity = (option: cityOption) => {
     setSelectedCity(option);
     router.push(
-      `/location/${option?.value.latitude}/${option?.value.longitude}`
+      // Navigate to folder structure: location/[city]/[lat]/[long] + page.tsx
+      `/location/${option?.value.name}/${option?.value.latitude}/${option?.value.longitude}`
     );
   };
-
+  /* In summary, the `useRouter` hook lets you access the router object for more
+  control over navigation, while the `Link` component is a (HOC) used to create
+  client-side navigation links. A main difference between them is their use case
+  as we use `useRouter` for programmatic navigation or access to route info, and
+  a `Link` component is used to create  navigational links within our app. */
   return (
     <div className="space-y-4">
       <div className="space-y-2">
